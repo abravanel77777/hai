@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Heineken B2B Portal</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuração exata das cores oficiais da marca Heineken
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        heineken: {
+                            green: '#008200',   // Primary Brand Color
+                            dark: '#205527',    // Corporate Green
+                            red: '#FF2B00',     // Heineken Red
+                            silver: '#C3C3C3',  // Silver/Grey
+                            light: '#F0F5F0',   // Fundo suave esverdeado
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'premium': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 2px 8px rgba(0,0,0,0.04)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f8;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #fafafa;
+            height: 100dvh;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 90px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .view-section.active {
+            display: block;
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Melhorias no input e botoes */
+        .btn-primary {
+            @apply bg-heineken-green text-white font-bold py-3.5 px-4 rounded-xl shadow-md hover:bg-green-700 transition active:scale-[0.98] flex items-center justify-center space-x-2 w-full uppercase tracking-wide text-sm;
+        }
+        .btn-outline {
+            @apply border-2 border-heineken-green text-heineken-green font-bold py-3.5 px-4 rounded-xl hover:bg-heineken-light transition active:scale-[0.98] flex items-center justify-center space-x-2 w-full uppercase tracking-wide text-sm bg-white;
+        }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            z-index: 100;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Banner Gradient */
+        .bg-corp-gradient {
+            background: linear-gradient(135deg, #205527 0%, #008200 100%);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-heineken-light selection:text-heineken-dark">
+
+    <div class="app-container">
+        
+        <!-- Cabeçalho Corporativo Oficial -->
+        <header class="bg-heineken-dark text-white p-4 sticky top-0 z-40 shadow-md">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <!-- Logotipo Tipográfico Oficial -->
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-star text-heineken-red text-[14px] mr-1.5 -mt-2"></i>
+                        <h1 class="text-2xl font-black tracking-tighter uppercase leading-none">Heineken</h1>
+                        <span class="ml-1.5 text-[10px] font-bold border border-white/30 rounded px-1.5 py-0.5 opacity-80 mt-1">B2B</span>
+                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="text-white hover:text-gray-200 transition relative">
+                        <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                    </button>
+                    <button class="text-white hover:text-gray-200 transition relative">
+                        <i class="fa-regular fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-heineken-red rounded-full border border-heineken-dark"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Toast de Notificação -->
+        <div id="toast" class="bg-gray-900 text-white text-sm font-medium px-5 py-3 rounded-lg shadow-2xl flex items-center">
+            <i class="fa-solid fa-circle-check text-heineken-green mr-3 text-lg"></i>
+            <span id="toastMessage">Ação realizada com sucesso</span>
+        </div>
+
+        <main class="main-content relative bg-gray-50/50">
+            
+            <!-- ================= VIEW: INÍCIO ================= -->
+            <section id="view-inicio" class="view-section active">
+                
+                <!-- Welcome Banner -->
+                <div class="bg-corp-gradient px-5 pt-6 pb-10 text-white relative overflow-hidden rounded-b-[2rem] shadow-sm">
+                    <div class="relative z-10">
+                        <p class="text-green-100 text-sm font-medium mb-1">Bem-vindo(a) ao portal,</p>
+                        <h2 class="text-2xl font-bold tracking-tight mb-4">Estabelecimento Parceiro</h2>
+                        
+                        <!-- Resumo Rápido -->
+                        <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 flex justify-between items-center">
+                            <div>
+                                <p class="text-xs text-green-50 uppercase tracking-wider font-semibold">Status da Conta</p>
+                                <p class="font-bold text-white flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-check text-heineken-light text-xs mr-1.5"></i> Ativa
+                                </p>
+                            </div>
+                            <button class="bg-white text-heineken-dark text-xs font-bold px-4 py-2 rounded-lg hover:bg-gray-100 transition">
+                                Ver Detalhes
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Decorativo -->
+                    <div class="absolute -bottom-10 -right-10 opacity-10">
+                        <i class="fa-solid fa-star text-9xl"></i>
+                    </div>
+                </div>
+
+                <div class="px-5 -mt-6 relative z-20 space-y-5">
+                    
+                    <!-- Ações B2B -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div onclick="navigateTo('view-catalogo')" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-heineken-light text-heineken-green flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Novo Pedido</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Acessar catálogo</p>
+                        </div>
+
+                        <div onclick="navigateTo('view-pedidos')" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-clipboard-list"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Meus Pedidos</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Histórico e status</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-gray-50 text-gray-600 flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Faturas</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">2 boletos em aberto</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-heineken-red/10 text-heineken-red flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-tags"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Promoções</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Campanhas ativas</p>
+                        </div>
+                    </div>
+
+                    <!-- Destaques -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wider">Marcas em Destaque</h3>
+                            <span class="text-xs text-heineken-green font-bold cursor-pointer">Ver todas</span>
+                        </div>
+                        <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Heineken_Logo.svg/512px-Heineken_Logo.svg.png" class="h-12 bg-white rounded-lg px-4 py-2 shadow-card border border-gray-100 object-contain shrink-0">
+                            <img src="https://logodownload.org/wp-content/uploads/2016/09/amstel-logo-2.png" class="h-12 bg-white rounded-lg px-4 py-2 shadow-card border border-gray-100 object-contain shrink-0">
+                            <img src="https://logodownload.org/wp-content/uploads/2017/04/eisenbahn-logo-1.png" class="h-12 bg-gray-900 rounded-lg px-4 py-2 shadow-card border border-gray-800 object-contain shrink-0 filter invert">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW: CATÁLOGO ================= -->
+            <section id="view-catalogo" class="view-section space-y-4 p-4">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="navigateTo('view-inicio')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
+                            <i class="fa-solid fa-arrow-left text-sm"></i>
+                        </button>
+                        <h2 class="text-xl font-bold text-gray-900">Catálogo de Produtos</h2>
+                    </div>
+                    <button class="text-gray-500 hover:text-heineken-green"><i class="fa-solid fa-filter"></i></button>
+                </div>
+
+                <!-- Filtros Categoria Horizontal -->
+                <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
+                    <button class="px-4 py-2 bg-heineken-dark text-white rounded-lg text-xs font-bold whitespace-nowrap shadow-sm">Todas</button>
+                    <button class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-xs font-bold whitespace-nowrap shadow-sm hover:bg-gray-50">Cervejas</button>
+                    <button class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-xs font-bold whitespace-nowrap shadow-sm hover:bg-gray-50">Sem Álcool</button>
+                    <button class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-xs font-bold whitespace-nowrap shadow-sm hover:bg-gray-50">Chopp</button>
+                </div>
+
+                <!-- Lista de Produtos (Mock) -->
+                <div class="space-y-3" id="catalogo-lista">
+                    <!-- Preenchido via JS -->
+                </div>
+            </section>
+
+            <!-- ================= VIEW: IDENTIFICAÇÃO CNPJ ================= -->
+            <section id="view-identificacao" class="view-section p-4">
+                <div class="flex items-center space-x-3 mb-6">
+                    <button onclick="navigateTo('view-catalogo')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
+                        <i class="fa-solid fa-arrow-left text-sm"></i>
+                    </button>
+                    <h2 class="text-xl font-bold text-gray-900">Validar Acesso</h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-premium border border-gray-100">
+                    <div class="mb-6 text-center">
+                        <i class="fa-solid fa-building-shield text-4xl text-heineken-green mb-3"></i>
+                        <h3 class="font-bold text-lg text-gray-900">Identificação B2B</h3>
+                        <p class="text-sm text-gray-500 mt-1">Para precificação e disponibilidade na sua região, confirme o CNPJ do estabelecimento.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 relative overflow-hidden">
+                        <div class="absolute left-0 top-0 h-full w-1 bg-heineken-green"></div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">CNPJ de Demonstração</label>
+                        <div class="text-lg font-mono font-bold text-gray-900 tracking-wider" id="cnpj-demo">00.000.000/0001-91</div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button onclick="copiarCNPJ()" id="btnCopiarCnpj" class="btn-outline">
+                            <i class="fa-regular fa-copy text-lg"></i>
+                            <span>Copiar CNPJ</span>
+                        </button>
+
+                        <button onclick="iniciarPedido()" id="btnContinuarCnpj" class="btn-primary opacity-50 cursor-not-allowed" disabled>
+                            <span>Validar e Continuar</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-6 flex items-start space-x-2 bg-blue-50 p-3 rounded-lg border border-blue-100">
+                        <i class="fa-solid fa-circle-info text-blue-500 mt-0.5 text-xs"></i>
+                        <p class="text-[10px] text-blue-800 leading-tight font-medium">
+                            Ambiente de simulação corporativa. Nenhuma transação real será processada.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW: MONTE SEU PEDIDO ================= -->
+            <section id="view-monte-pedido" class="view-section p-4">
+                <div class="flex items-center space-x-3 mb-4">
+                    <button onclick="navigateTo('view-identificacao')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
+                        <i class="fa-solid fa-arrow-left text-sm"></i>
+                    </button>
+                    <h2 class="text-xl font-bold text-gray-900">Detalhes do Item</h2>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-premium border border-gray-100">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-20 h-24 bg-gray-50 rounded-xl flex items-center justify-center p-2 border border-gray-100 flex-shrink-0 relative">
+                            <img id="pedido-produto-img" src="" alt="Produto" class="max-w-full max-h-full object-contain drop-shadow-md">
+                        </div>
+                        <div>
+                            <span id="pedido-produto-tag" class="text-[10px] font-bold uppercase tracking-wider text-heineken-dark bg-heineken-light px-2 py-0.5 rounded inline-block mb-1">SKU</span>
+                            <h3 id="pedido-produto-nome" class="font-bold text-lg text-gray-900 leading-tight">Produto</h3>
+                            <p id="pedido-produto-desc" class="text-xs text-gray-500 mt-1">Descrição</p>
+                            <p class="text-sm font-bold text-heineken-green mt-2">Condições sob consulta</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-5">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="font-bold text-gray-800 text-sm">Volume (Caixas/Fardos)</label>
+                        </div>
+                        <div class="flex items-center justify-between bg-white p-1.5 rounded-lg border border-gray-200">
+                            <button onclick="alterarQtd(-1)" class="w-12 h-10 flex items-center justify-center bg-gray-50 rounded-md text-gray-600 hover:bg-gray-100 font-bold text-xl transition">-</button>
+                            <span id="pedido-qtd" class="font-bold text-xl text-gray-900 w-16 text-center font-mono">1</span>
+                            <button onclick="alterarQtd(1)" class="w-12 h-10 flex items-center justify-center bg-gray-50 rounded-md text-gray-600 hover:bg-gray-100 font-bold text-xl transition">+</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-800 mb-2">Observação Comercial (Opcional)</label>
+                        <textarea id="pedido-obs" rows="2" class="w-full bg-white border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:border-heineken-green focus:ring-1 focus:ring-heineken-green transition placeholder-gray-400" placeholder="Ex: Solicitação de comodato, vasilhames, etc."></textarea>
+                    </div>
+
+                    <button onclick="revisarPedido()" class="btn-primary">
+                        Continuar para Revisão
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= VIEW: REVISAR PEDIDO ================= -->
+            <section id="view-revisar-pedido" class="view-section p-4">
+                <div class="flex items-center space-x-3 mb-4">
+                    <button onclick="navigateTo('view-monte-pedido')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
+                        <i class="fa-solid fa-arrow-left text-sm"></i>
+                    </button>
+                    <h2 class="text-xl font-bold text-gray-900">Resumo da Cotação</h2>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-premium border border-gray-100 overflow-hidden">
+                    <div class="bg-gray-50 px-5 py-3 border-b border-gray-100 flex justify-between items-center">
+                        <span class="text-xs font-bold text-gray-500 uppercase">Solicitação #B2B-8492</span>
+                        <span class="text-[10px] font-bold bg-yellow-100 text-yellow-800 px-2 py-1 rounded">RASCUNHO</span>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex items-center space-x-4 mb-5 border-b border-gray-100 pb-5">
+                             <div class="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center p-1 border border-gray-200 flex-shrink-0">
+                                <img id="resumo-produto-img" src="" alt="Produto" class="max-w-full max-h-full object-contain">
+                            </div>
+                            <div class="flex-grow">
+                                <span id="resumo-produto" class="text-base font-bold text-gray-900 block leading-tight">Produto</span>
+                                <span class="text-xs text-gray-500 block mt-1">Quantidade: <span id="resumo-qtd" class="font-bold text-gray-800">1</span> un.</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between items-start bg-gray-50 p-3 rounded-lg">
+                                <span class="text-xs font-bold text-gray-600">CNPJ Favorecido</span>
+                                <span class="text-xs font-mono font-bold text-gray-900">00.000.000/0001-91</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-xs font-bold text-gray-600">Observações</span>
+                                <span id="resumo-obs" class="text-xs font-medium text-gray-800 text-right max-w-[60%]">-</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-gray-100 flex justify-between items-end mb-6">
+                            <div>
+                                <span class="block text-xs font-bold text-gray-500 uppercase">Estimativa Total</span>
+                                <span class="text-[10px] text-gray-400 leading-none">Sujeito a análise comercial</span>
+                            </div>
+                            <span class="text-lg font-black text-heineken-dark">A Combinar</span>
+                        </div>
+
+                        <button onclick="enviarSolicitacao()" id="btnEnviar" class="btn-primary bg-heineken-dark hover:bg-gray-900">
+                            <i class="fa-solid fa-paper-plane mr-1"></i>
+                            <span>Enviar para Comercial</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW: SUCESSO ================= -->
+            <section id="view-sucesso" class="view-section flex flex-col items-center justify-center h-[70vh] px-6 text-center">
+                <div class="w-24 h-24 bg-heineken-light rounded-full flex items-center justify-center text-heineken-green text-5xl mb-6 shadow-inner">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h2 class="text-2xl font-black text-gray-900 mb-2">Solicitação Enviada</h2>
+                <p class="text-sm text-gray-600 mb-8 max-w-xs">
+                    Seu pedido foi encaminhado ao distribuidor da sua região. Entraremos em contato para confirmar condições e entrega.
+                </p>
+                <div class="w-full space-y-3">
+                    <button onclick="navigateTo('view-pedidos')" class="btn-primary">
+                        Acompanhar Status
+                    </button>
+                    <button onclick="navigateTo('view-inicio')" class="btn-outline border-gray-300 text-gray-600 hover:bg-gray-50">
+                        Voltar ao Início
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= VIEW: MEUS PEDIDOS ================= -->
+            <section id="view-pedidos" class="view-section p-4 h-full flex flex-col">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Meus Pedidos</h2>
+                
+                <div class="flex-grow flex flex-col items-center justify-center text-center p-8 bg-white rounded-2xl shadow-card border border-gray-100">
+                    <div class="text-5xl text-gray-200 mb-4">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Histórico Vazio</h3>
+                    <p class="text-sm text-gray-500 mb-6">Suas cotações e pedidos de reposição aparecerão organizados aqui.</p>
+                    
+                    <button onclick="navigateTo('view-catalogo')" class="btn-primary w-auto px-6">
+                        <i class="fa-solid fa-plus mr-1"></i>
+                        <span>Explorar Catálogo</span>
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-auto bg-white border-t border-gray-200 relative z-50">
+            <!-- Aviso legal discreto -->
+            <div class="px-4 py-2 bg-gray-100 text-[9px] text-gray-400 text-center uppercase tracking-wider font-semibold">
+                Portal de Demonstração Institucional B2B
+            </div>
+
+            <!-- Bottom Navigation -->
+            <nav class="flex justify-around items-center h-[70px] pb-safe shadow-[0_-5px_20px_rgba(0,0,0,0.02)]">
+                <button onclick="navigateTo('view-inicio')" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16 active" data-target="view-inicio">
+                    <i class="fa-solid fa-house text-lg mb-1 transition-transform"></i>
+                    <span class="text-[10px] font-bold">Início</span>
+                </button>
+                <button onclick="navigateTo('view-catalogo')" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16" data-target="view-catalogo">
+                    <i class="fa-solid fa-box-open text-lg mb-1 transition-transform"></i>
+                    <span class="text-[10px] font-bold">Catálogo</span>
+                </button>
+                <button onclick="navigateTo('view-pedidos')" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16" data-target="view-pedidos">
+                    <i class="fa-solid fa-clock-rotate-left text-lg mb-1 transition-transform"></i>
+                    <span class="text-[10px] font-bold">Histórico</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16">
+                    <i class="fa-solid fa-user-gear text-lg mb-1 transition-transform"></i>
+                    <span class="text-[10px] font-bold">Conta</span>
+                </button>
+            </nav>
+        </footer>
+    </div>
+
+    <script>
+        // Dados de Produtos B2B
+        const produtos = [
+            { id: 1, nome: "Heineken Original", desc: "Garrafa Long Neck 330ml - Caixa c/ 24", tag: "Premium Lager", cor: "008200", imagem: "https://www.heinekenbrasil.com.br/app/uploads/2023/11/Heineken_LN_330ml.png" },
+            { id: 2, nome: "Heineken 0.0", desc: "Puro malte, zero álcool 330ml - Caixa c/ 24", tag: "Zero Álcool", cor: "004B93", imagem: "https://www.heinekenbrasil.com.br/app/uploads/2023/11/Heineken_00_LN_330ml.png" },
+            { id: 3, nome: "Amstel Lager", desc: "Lata 350ml - Fardo c/ 12", tag: "Puro Malte", cor: "E31837", imagem: "https://www.heinekenbrasil.com.br/app/uploads/2023/11/Amstel_Lata_350ml.png" },
+            { id: 5, nome: "Sol Premium", desc: "Garrafa Long Neck 330ml - Caixa c/ 24", tag: "Premium", cor: "FDB71A", imagem: "https://s3.amazonaws.com/produtos.sitemercado.com.br/produtos/7f4ed7cf9dbb6440db7f95521b7aef14e491c107_full.jpg" },
+            { id: 6, nome: "Baden Baden", desc: "Cristal 600ml - Caixa c/ 12", tag: "Craft", cor: "D4AF37", imagem: "https://s3.amazonaws.com/produtos.sitemercado.com.br/produtos/27ed6f3a4b79b5c2a11b65e94b2a3c75d86289b7_full.jpg" },
+            { id: 7, nome: "Chopp Heineken", desc: "Barril KEG 50 Litros", tag: "Draft", cor: "008200", imagem: "https://s3.amazonaws.com/produtos.sitemercado.com.br/produtos/8f2c31e9c9a2c3a372337a7b973c683b5f7e53f1_full.jpg" } // Usando imagem genérica como fallback ilustrativo
+        ];
+
+        let pedidoAtual = {
+            produto: null,
+            quantidade: 1,
+            observacoes: ""
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderizarCatalogo();
+        });
+
+        function navigateTo(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            const targetView = document.getElementById(viewId);
+            if(targetView) {
+                targetView.classList.add('active');
+                document.querySelector('.main-content').scrollTop = 0;
+            }
+
+            // Atualiza bottom nav UI
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(btn.dataset.target === viewId) {
+                    btn.classList.add('text-heineken-green');
+                    btn.classList.remove('text-gray-400');
+                    btn.querySelector('i').classList.add('scale-110', 'text-heineken-green');
+                } else {
+                    btn.classList.remove('text-heineken-green');
+                    btn.classList.add('text-gray-400');
+                    btn.querySelector('i').classList.remove('scale-110', 'text-heineken-green');
+                }
+            });
+        }
+
+        function renderizarCatalogo() {
+            const container = document.getElementById('catalogo-lista');
+            container.innerHTML = '';
+
+            produtos.forEach(prod => {
+                const fallbackImg = `https://placehold.co/150x200/${prod.cor}/ffffff?text=${encodeURIComponent(prod.nome.split(' ')[0])}`;
+                
+                const card = document.createElement('div');
+                card.className = "bg-white p-3 rounded-xl shadow-card border border-gray-100 flex items-center mb-3";
+                card.innerHTML = `
+                    <div class="w-20 h-24 bg-gray-50 rounded-lg flex items-center justify-center p-2 mr-4 flex-shrink-0 border border-gray-100 relative">
+                        <img src="${prod.imagem}" alt="${prod.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm" onerror="this.onerror=null; this.src='${fallbackImg}';">
+                    </div>
+                    <div class="flex-grow py-1">
+                        <span class="text-[9px] font-bold uppercase tracking-widest text-heineken-dark bg-heineken-light px-2 py-0.5 rounded inline-block mb-1">${prod.tag}</span>
+                        <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">${prod.nome}</h3>
+                        <p class="text-[10px] font-medium text-gray-500 mb-2 leading-snug">${prod.desc}</p>
+                        <button onclick="selecionarProduto(${prod.id})" class="text-[11px] font-bold text-heineken-green border border-heineken-green px-3 py-1.5 rounded-lg hover:bg-heineken-light transition uppercase">
+                            Adicionar
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selecionarProduto(idProduto) {
+            const prod = produtos.find(p => p.id === idProduto);
+            pedidoAtual.produto = prod;
+            pedidoAtual.quantidade = 1;
+            pedidoAtual.observacoes = "";
+            
+            // Reset CNPJ validation button
+            const btnCnpj = document.getElementById('btnCopiarCnpj');
+            btnCnpj.innerHTML = '<i class="fa-regular fa-copy text-lg"></i><span>Copiar CNPJ</span>';
+            btnCnpj.className = "btn-outline";
+            
+            const btnContinuar = document.getElementById('btnContinuarCnpj');
+            btnContinuar.disabled = true;
+            btnContinuar.classList.add('opacity-50', 'cursor-not-allowed');
+
+            navigateTo('view-identificacao');
+        }
+
+        function copiarCNPJ() {
+            const cnpjText = document.getElementById('cnpj-demo').innerText;
+            
+            navigator.clipboard.writeText(cnpjText).then(() => {
+                mostrarToast('CNPJ copiado com sucesso');
+                
+                const btn = document.getElementById('btnCopiarCnpj');
+                btn.innerHTML = '<i class="fa-solid fa-check text-lg"></i><span>Copiado</span>';
+                btn.className = "btn-primary bg-gray-900 hover:bg-black border-transparent";
+
+                const btnContinuar = document.getElementById('btnContinuarCnpj');
+                btnContinuar.disabled = false;
+                btnContinuar.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            }).catch(err => {
+                mostrarToast('Erro ao copiar CNPJ.');
+            });
+        }
+
+        function iniciarPedido() {
+            const fallbackImg = `https://placehold.co/150x200/${pedidoAtual.produto.cor}/ffffff?text=${encodeURIComponent(pedidoAtual.produto.nome.split(' ')[0])}`;
+            
+            document.getElementById('pedido-produto-nome').innerText = pedidoAtual.produto.nome;
+            document.getElementById('pedido-produto-desc').innerText = pedidoAtual.produto.desc;
+            document.getElementById('pedido-produto-tag').innerText = pedidoAtual.produto.tag;
+            
+            const imgEl = document.getElementById('pedido-produto-img');
+            imgEl.src = pedidoAtual.produto.imagem;
+            imgEl.onerror = () => { imgEl.src = fallbackImg; };
+            
+            document.getElementById('pedido-qtd').innerText = pedidoAtual.quantidade;
+            document.getElementById('pedido-obs').value = "";
+            
+            navigateTo('view-monte-pedido');
+        }
+
+        function alterarQtd(delta) {
+            let novaQtd = pedidoAtual.quantidade + delta;
+            if(novaQtd >= 1 && novaQtd <= 999) {
+                pedidoAtual.quantidade = novaQtd;
+                document.getElementById('pedido-qtd').innerText = pedidoAtual.quantidade;
+            }
+        }
+
+        function revisarPedido() {
+            pedidoAtual.observacoes = document.getElementById('pedido-obs').value || "Nenhuma observação comercial.";
+            
+            const fallbackImg = `https://placehold.co/150x200/${pedidoAtual.produto.cor}/ffffff?text=${encodeURIComponent(pedidoAtual.produto.nome.split(' ')[0])}`;
+            
+            document.getElementById('resumo-produto').innerText = pedidoAtual.produto.nome;
+            
+            const imgEl = document.getElementById('resumo-produto-img');
+            imgEl.src = pedidoAtual.produto.imagem;
+            imgEl.onerror = () => { imgEl.src = fallbackImg; };
+
+            document.getElementById('resumo-qtd').innerText = pedidoAtual.quantidade;
+            document.getElementById('resumo-obs').innerText = pedidoAtual.observacoes;
+            
+            navigateTo('view-revisar-pedido');
+        }
+
+        function enviarSolicitacao() {
+            const btn = document.getElementById('btnEnviar');
+            const textoOriginal = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Processando...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = textoOriginal;
+                btn.disabled = false;
+                navigateTo('view-sucesso');
+            }, 1200);
+        }
+
+        function mostrarToast(mensagem) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = mensagem;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+    </script>
+</body>
+</html>
