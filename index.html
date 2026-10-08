@@ -270,10 +270,11 @@
                         <input type="text" id="cad-endereco" placeholder="Rua, Bairro, Cidade - UF" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm text-gray-600 focus:outline-none" readonly>
                     </div>
 
-                    <button onclick="salvarCadastroInicial()" class="btn-primary mt-2">
-                        <span>Avançar para Verificação</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                    <button onclick="salvarCadastroInicial()" 
+    style="background:#00843D;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;">
+    <span>Avançar para Verificação</span>
+    <i class="fa-solid fa-arrow-right"></i>
+</button>
                 </div>
             </section>
 
@@ -323,18 +324,16 @@
                         <div class="absolute left-0 top-0 h-full w-1 bg-heineken-green"></div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Copie o CNPJ para vincular a sua empresa ao processo de identificação, entre no seu banco e faça a verificação de segurança de R$0,01 centavos (será reembolsado) para o CNPJ da Heineken</label>
                         <div class="text-lg font-mono font-bold text-gray-900 tracking-wider" id="cnpj-demo">50.221.019/0001-36</div>
-                    </div>
+                    </div> 
 
                     <div class="space-y-3">
-                        <button onclick="copiarCNPJ()" id="btnCopiarCnpj" class="btn-primary">
-                            <i class="fa-regular fa-copy text-lg"></i>
-                            <span>Copiar CNPJ</span>
-                        </button>
+                        <button onclick="copiarCNPJ()" id="btnCopiarCnpj"
+    style="background:#00843D;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-weight:700;cursor:pointer;">
+    <i class="fa-regular fa-copy text-lg"></i>
+    <span>Copiar CNPJ</span>
+</button>
 
-                        <button onclick="tentarContinuarCnpj()" id="btnContinuarCnpj" class="btn-outline">
-                            <span>Validar e Continuar</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
+                        
                     </div>
                     
                     <div class="mt-6 flex items-start space-x-2 bg-blue-50 p-3 rounded-lg border border-blue-100">
@@ -466,7 +465,7 @@
         <footer class="mt-auto bg-white border-t border-gray-200 relative z-50">
             <!-- Aviso legal discreto -->
             <div class="px-4 py-2 bg-gray-100 text-[9px] text-gray-400 text-center uppercase tracking-wider font-semibold">
-                Portal Institucional B2B
+                Portal de Demonstração Institucional B2B
             </div>
 
             <!-- Bottom Navigation -->
