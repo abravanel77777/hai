@@ -124,10 +124,10 @@
                     </div>
                 </div>
                 <div class="flex space-x-3">
-                    <button onclick="navigateTo('view-identificacao')" class="text-white hover:text-gray-200 transition relative">
+                    <button onclick="tentarAcessarIdentificacao()" class="text-white hover:text-gray-200 transition relative">
                         <i class="fa-solid fa-magnifying-glass text-xl"></i>
                     </button>
-                    <button onclick="navigateTo('view-identificacao')" class="text-white hover:text-gray-200 transition relative">
+                    <button onclick="tentarAcessarIdentificacao()" class="text-white hover:text-gray-200 transition relative">
                         <i class="fa-regular fa-bell text-xl"></i>
                         <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-heineken-red rounded-full border border-heineken-dark"></span>
                     </button>
@@ -142,6 +142,92 @@
 
         <main class="main-content relative bg-gray-50/50">
             
+            <!-- VIEW: INÍCIO (PÁGINA PRINCIPAL) -->
+            <section id="view-inicio" class="view-section active">
+                
+                <!-- Welcome Banner -->
+                <div class="bg-corp-gradient px-5 pt-6 pb-10 text-white relative overflow-hidden rounded-b-[2rem] shadow-sm">
+                    <div class="relative z-10">
+                        <p class="text-green-100 text-sm font-medium mb-1">Bem-vindo(a) ao portal,</p>
+                        <h2 class="text-2xl font-bold tracking-tight mb-4">Estabelecimento Parceiro</h2>
+                        
+                        <!-- Resumo Rápido -->
+                        <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 flex justify-between items-center">
+                            <div>
+                                <p class="text-xs text-green-50 uppercase tracking-wider font-semibold">Status da Conta</p>
+                                <p class="font-bold text-white flex items-center mt-1">
+                                    <i class="fa-solid fa-seedling text-heineken-light text-xs mr-1.5"></i> Nova Conta
+                                </p>
+                            </div>
+                            <button onclick="tentarAcessarIdentificacao()" class="bg-white text-heineken-dark text-xs font-bold px-4 py-2 rounded-lg hover:bg-gray-100 transition">
+                                Ver Detalhes
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Decorativo -->
+                    <div class="absolute -bottom-10 -right-10 opacity-10">
+                        <i class="fa-solid fa-star text-9xl"></i>
+                    </div>
+                </div>
+
+                <div class="px-5 -mt-6 relative z-20 space-y-5">
+                    
+                    <!-- Ações B2B -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div onclick="tentarAcessarIdentificacao()" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-heineken-light text-heineken-green flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Novo Pedido</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Acessar catálogo</p>
+                        </div>
+
+                        <div onclick="tentarAcessarIdentificacao()" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-clipboard-list"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Meus Pedidos</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Faça seu 1º pedido</p>
+                        </div>
+                        
+                        <div onclick="tentarAcessarIdentificacao()" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-gray-50 text-gray-600 flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Faturas</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Nenhuma pendência</p>
+                        </div>
+
+                        <div onclick="tentarAcessarIdentificacao()" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
+                            <div class="w-10 h-10 rounded-full bg-heineken-red/10 text-heineken-red flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-tags"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 text-sm">Promoções</h3>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Boas-vindas ativas</p>
+                        </div>
+                    </div>
+
+                    <!-- Destaques -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wider">Marcas em Destaque</h3>
+                            <span onclick="tentarAcessarIdentificacao()" class="text-xs text-heineken-green font-bold cursor-pointer">Ver todas</span>
+                        </div>
+                        <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
+                            <div onclick="tentarAcessarIdentificacao()" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden shrink-0 cursor-pointer">
+                                <img src="https://thumbs.dreamstime.com/b/logotipo-de-heineken-em-uma-parede-104281010.jpg" class="w-full h-full object-cover" alt="Heineken">
+                            </div>
+                            <div onclick="tentarAcessarIdentificacao()" class="h-14 w-24 bg-white rounded-lg p-2 shadow-card border border-gray-100 flex items-center justify-center shrink-0 cursor-pointer">
+                                <img src="https://api-siterefrigerantes.brasal.com.br/uploads/files/e7ee4ff67f9b1cecbf4bd1a907e69cea.png" class="max-w-full max-h-full object-contain" alt="Amstel">
+                            </div>
+                            <div onclick="tentarAcessarIdentificacao()" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden shrink-0 cursor-pointer">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZnkXtQyhR_qOH3V_TPy-DqcEpoIDIjltTNa6fbvZHPqcYnIfjlMaMfHc&s=10" class="w-full h-full object-cover" alt="Eisenbahn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- VIEW: CADASTRO INICIAL DA EMPRESA -->
             <section id="view-cadastro-inicial" class="view-section p-4">
                 <div class="text-center mb-6 pt-2">
@@ -191,91 +277,7 @@
                 </div>
             </section>
 
-            <section id="view-inicio" class="view-section">
-                
-                <!-- Welcome Banner -->
-                <div class="bg-corp-gradient px-5 pt-6 pb-10 text-white relative overflow-hidden rounded-b-[2rem] shadow-sm">
-                    <div class="relative z-10">
-                        <p class="text-green-100 text-sm font-medium mb-1">Bem-vindo(a) ao portal,</p>
-                        <h2 class="text-2xl font-bold tracking-tight mb-4">Estabelecimento Parceiro</h2>
-                        
-                        <!-- Resumo Rápido -->
-                        <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 flex justify-between items-center">
-                            <div>
-                                <p class="text-xs text-green-50 uppercase tracking-wider font-semibold">Status da Conta</p>
-                                <p class="font-bold text-white flex items-center mt-1">
-                                    <i class="fa-solid fa-seedling text-heineken-light text-xs mr-1.5"></i> Nova Conta
-                                </p>
-                            </div>
-                            <button onclick="navigateTo('view-identificacao')" class="bg-white text-heineken-dark text-xs font-bold px-4 py-2 rounded-lg hover:bg-gray-100 transition">
-                                Ver Detalhes
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Decorativo -->
-                    <div class="absolute -bottom-10 -right-10 opacity-10">
-                        <i class="fa-solid fa-star text-9xl"></i>
-                    </div>
-                </div>
-
-                <div class="px-5 -mt-6 relative z-20 space-y-5">
-                    
-                    <!-- Ações B2B -->
-                    <div class="grid grid-cols-2 gap-3">
-                        <div onclick="navigateTo('view-identificacao')" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
-                            <div class="w-10 h-10 rounded-full bg-heineken-light text-heineken-green flex items-center justify-center text-lg mb-3">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <h3 class="font-bold text-gray-800 text-sm">Novo Pedido</h3>
-                            <p class="text-[11px] text-gray-500 mt-0.5">Acessar catálogo</p>
-                        </div>
-
-                        <div onclick="navigateTo('view-identificacao')" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3">
-                                <i class="fa-solid fa-clipboard-list"></i>
-                            </div>
-                            <h3 class="font-bold text-gray-800 text-sm">Meus Pedidos</h3>
-                            <p class="text-[11px] text-gray-500 mt-0.5">Faça seu 1º pedido</p>
-                        </div>
-                        
-                        <div onclick="navigateTo('view-identificacao')" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
-                            <div class="w-10 h-10 rounded-full bg-gray-50 text-gray-600 flex items-center justify-center text-lg mb-3">
-                                <i class="fa-solid fa-file-invoice-dollar"></i>
-                            </div>
-                            <h3 class="font-bold text-gray-800 text-sm">Faturas</h3>
-                            <p class="text-[11px] text-gray-500 mt-0.5">Nenhuma pendência</p>
-                        </div>
-
-                        <div onclick="navigateTo('view-identificacao')" class="bg-white p-4 rounded-xl shadow-card border border-gray-100 flex flex-col cursor-pointer hover:shadow-md transition active:scale-95">
-                            <div class="w-10 h-10 rounded-full bg-heineken-red/10 text-heineken-red flex items-center justify-center text-lg mb-3">
-                                <i class="fa-solid fa-tags"></i>
-                            </div>
-                            <h3 class="font-bold text-gray-800 text-sm">Promoções</h3>
-                            <p class="text-[11px] text-gray-500 mt-0.5">Boas-vindas ativas</p>
-                        </div>
-                    </div>
-
-                    <!-- Destaques -->
-                    <div class="mb-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wider">Marcas em Destaque</h3>
-                            <span onclick="navigateTo('view-identificacao')" class="text-xs text-heineken-green font-bold cursor-pointer">Ver todas</span>
-                        </div>
-                        <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
-                            <div onclick="navigateTo('view-identificacao')" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden shrink-0 cursor-pointer">
-                                <img src="https://thumbs.dreamstime.com/b/logotipo-de-heineken-em-uma-parede-104281010.jpg" class="w-full h-full object-cover" alt="Heineken">
-                            </div>
-                            <div onclick="navigateTo('view-identificacao')" class="h-14 w-24 bg-white rounded-lg p-2 shadow-card border border-gray-100 flex items-center justify-center shrink-0 cursor-pointer">
-                                <img src="https://api-siterefrigerantes.brasal.com.br/uploads/files/e7ee4ff67f9b1cecbf4bd1a907e69cea.png" class="max-w-full max-h-full object-contain" alt="Amstel">
-                            </div>
-                            <div onclick="navigateTo('view-identificacao')" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden shrink-0 cursor-pointer">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZnkXtQyhR_qOH3V_TPy-DqcEpoIDIjltTNa6fbvZHPqcYnIfjlMaMfHc&s=10" class="w-full h-full object-cover" alt="Eisenbahn">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <!-- VIEW: CATÁLOGO DE PRODUTOS -->
             <section id="view-catalogo" class="view-section space-y-4 p-4">
                 <div class="flex items-center justify-between mb-2">
                     <div class="flex items-center space-x-3">
@@ -301,9 +303,10 @@
                 </div>
             </section>
 
+            <!-- VIEW: IDENTIFICAÇÃO CNPJ -->
             <section id="view-identificacao" class="view-section p-4">
                 <div class="flex items-center space-x-3 mb-6">
-                    <button onclick="navigateTo('view-inicio')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
+                    <button onclick="navigateTo('view-catalogo')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
                         <i class="fa-solid fa-arrow-left text-sm"></i>
                     </button>
                     <h2 class="text-xl font-bold text-gray-900">Validar Acesso</h2>
@@ -313,36 +316,40 @@
                     <div class="mb-6 text-center">
                         <i class="fa-solid fa-building-shield text-4xl text-heineken-green mb-3"></i>
                         <h3 class="font-bold text-lg text-gray-900">Identificação B2B</h3>
-                        <p class="text-sm text-gray-500 mt-1">Para verificação e disponibilidade na sua região, confirme o CNPJ do estabelecimento. Primeiro faça uma pequena verificação bancária de cadastro e identificação.</p>
+                        <p class="text-sm text-gray-500 mt-1">Para Verificação e disponibilidade na sua região, confirme o CNPJ do estabelecimento. Primeiro faça uma pequena verificação bancária de cadastro e identificação.</p>
                     </div>
                     
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 relative overflow-hidden">
                         <div class="absolute left-0 top-0 h-full w-1 bg-heineken-green"></div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Copie o CNPJ para vincular a sua empresa ao processo de indetificação, entre no seu banco e faça a verificação de segurança de R$0,01 centavos(sera reembolsado) para o CNPJ da Heineken</label>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Copie o CNPJ para vincular a sua empresa ao processo de identificação, entre no seu banco e faça a verificação de segurança de R$0,01 centavos (será reembolsado) para o CNPJ da Heineken</label>
                         <div class="text-lg font-mono font-bold text-gray-900 tracking-wider" id="cnpj-demo">50.221.019/0001-36</div>
                     </div>
 
                     <div class="space-y-3">
-                        <button onclick="copiarCNPJ()" id="btnCopiarCnpj" class="bg-heineken-green text-white font-bold py-3.5 px-4 rounded-xl shadow-md hover:bg-green-700 transition active:scale-[0.98] flex items-center justify-center space-x-2 w-full uppercase tracking-wide text-sm border-2 border-heineken-green">
+                        <button onclick="copiarCNPJ()" id="btnCopiarCnpj" class="btn-primary">
                             <i class="fa-regular fa-copy text-lg"></i>
                             <span>Copiar CNPJ</span>
                         </button>
 
-                        
+                        <button onclick="tentarContinuarCnpj()" id="btnContinuarCnpj" class="btn-outline">
+                            <span>Validar e Continuar</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
                     
                     <div class="mt-6 flex items-start space-x-2 bg-blue-50 p-3 rounded-lg border border-blue-100">
                         <i class="fa-solid fa-circle-info text-blue-500 mt-0.5 text-xs"></i>
                         <p class="text-[10px] text-blue-800 leading-tight font-medium">
-                            Ambiente corporativo. Transação real será processada.
+                            Ambiente de simulação corporativa. Nenhuma transação real será processada.
                         </p>
                     </div>
                 </div>
             </section>
 
+            <!-- VIEW: MONTE O PEDIDO -->
             <section id="view-monte-pedido" class="view-section p-4">
                 <div class="flex items-center space-x-3 mb-4">
-                    <button onclick="navigateTo('view-identificacao')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
+                    <button onclick="navigateTo('view-catalogo')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
                         <i class="fa-solid fa-arrow-left text-sm"></i>
                     </button>
                     <h2 class="text-xl font-bold text-gray-900">Detalhes do Item</h2>
@@ -383,6 +390,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: REVISAR PEDIDO -->
             <section id="view-revisar-pedido" class="view-section p-4">
                 <div class="flex items-center space-x-3 mb-4">
                     <button onclick="navigateTo('view-monte-pedido')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
@@ -411,7 +419,7 @@
                         <div class="space-y-3 mb-6">
                             <div class="flex justify-between items-start bg-gray-50 p-3 rounded-lg">
                                 <span class="text-xs font-bold text-gray-600">CNPJ Favorecido</span>
-                                <span class="text-xs font-mono font-bold text-gray-900" id="resumo-cnpj">00.000.000/0001-91</span>
+                                <span class="text-xs font-mono font-bold text-gray-900" id="resumo-cnpj">50.221.019/0001-36</span>
                             </div>
                             <div class="flex justify-between items-start">
                                 <span class="text-xs font-bold text-gray-600">Observações</span>
@@ -435,19 +443,19 @@
                 </div>
             </section>
 
+            <!-- VIEW: SUCESSO -->
             <section id="view-sucesso" class="view-section flex flex-col items-center justify-center h-[70vh] px-6 text-center">
                 <div class="w-24 h-24 bg-heineken-light rounded-full flex items-center justify-center text-heineken-green text-5xl mb-6 shadow-inner">
                     <i class="fa-solid fa-check"></i>
                 </div>
-                
-                
-                
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Solicitação Enviada!</h2>
+                <p class="text-sm text-gray-500 mb-8 max-w-[300px]">Sua verificação e pedido foram encaminhados com sucesso para o nosso departamento comercial.</p>
                 <div class="w-full space-y-3">
                     <button onclick="navigateTo('view-catalogo')" class="btn-primary">
-                        
+                        Continuar Comprando
                     </button>
                     <button onclick="navigateTo('view-inicio')" class="btn-outline border-gray-300 text-gray-600 hover:bg-gray-50">
-                        
+                        Voltar ao Início
                     </button>
                 </div>
             </section>
@@ -463,7 +471,7 @@
                     <h3 class="text-lg font-bold text-gray-800 mb-2">Bem-vindo ao B2B!</h3>
                     <p class="text-sm text-gray-500 mb-6">Este é o seu novo portal. Seu histórico de pedidos e cotações aparecerá aqui assim que você concluir a verificação de acesso.</p>
                     
-                    <button onclick="navigateTo('view-identificacao')" class="btn-primary w-auto px-6">
+                    <button onclick="tentarAcessarIdentificacao()" class="btn-primary w-auto px-6">
                         <i class="fa-solid fa-shield-halved mr-1"></i>
                         <span>Fazer Verificação</span>
                     </button>
@@ -484,15 +492,15 @@
                     <i class="fa-solid fa-house text-lg mb-1 transition-transform scale-110"></i>
                     <span class="text-[10px] font-bold">Início</span>
                 </button>
-                <button onclick="navigateTo('view-identificacao')" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16" data-target="view-catalogo">
+                <button onclick="tentarAcessarIdentificacao()" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16" data-target="view-catalogo">
                     <i class="fa-solid fa-box-open text-lg mb-1 transition-transform"></i>
                     <span class="text-[10px] font-bold">Catálogo</span>
                 </button>
-                <button onclick="navigateTo('view-identificacao')" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16" data-target="view-pedidos">
+                <button onclick="tentarAcessarIdentificacao()" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16" data-target="view-pedidos">
                     <i class="fa-solid fa-clock-rotate-left text-lg mb-1 transition-transform"></i>
                     <span class="text-[10px] font-bold">Histórico</span>
                 </button>
-                <button onclick="navigateTo('view-identificacao')" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16">
+                <button onclick="tentarAcessarIdentificacao()" class="nav-btn flex flex-col items-center p-2 text-gray-400 w-16">
                     <i class="fa-solid fa-user-gear text-lg mb-1 transition-transform"></i>
                     <span class="text-[10px] font-bold">Conta</span>
                 </button>
@@ -531,14 +539,9 @@
                     const dados = JSON.parse(empresaSalva);
                     if (dados && dados.nome) {
                         atualizarNomeEmpresaNoTopo(dados.nome);
-                        // Se já tem cadastro, vai direto para o início
-                        navigateTo('view-inicio');
-                        return;
                     }
                 } catch(e) {}
             }
-            // Se não tiver sessão salva, exibe a tela de cadastro inicial
-            navigateTo('view-cadastro-inicial');
         }
 
         function atualizarNomeEmpresaNoTopo(nome) {
@@ -546,6 +549,17 @@
             if (badge) {
                 badge.innerText = nome;
                 badge.classList.remove('hidden');
+            }
+        }
+
+        function tentarAcessarIdentificacao() {
+            const empresaSalva = localStorage.getItem('heineken_b2b_empresa');
+            if (!empresaSalva) {
+                // Se não tem cadastro salvo, vai para o formulário primeiro
+                navigateTo('view-cadastro-inicial');
+            } else {
+                // Se já tem cadastro, vai direto para a tela de verificação CNPJ
+                navigateTo('view-identificacao');
             }
         }
 
@@ -588,15 +602,10 @@
 
             atualizarNomeEmpresaNoTopo(nome);
             mostrarToast("Estabelecimento cadastrado com sucesso!");
-            navigateTo('view-inicio');
+            navigateTo('view-identificacao');
         }
 
         function navigateTo(viewId) {
-            // Se tentar ir para qualquer lugar sem sessão e não estiver na tela de cadastro, força o cadastro
-            if(viewId !== 'view-cadastro-inicial' && !localStorage.getItem('heineken_b2b_empresa')) {
-                viewId = 'view-cadastro-inicial';
-            }
-
             document.querySelectorAll('.view-section').forEach(el => {
                 el.classList.remove('active');
             });
@@ -657,13 +666,12 @@
             pedidoAtual.quantidade = 1;
             pedidoAtual.observacoes = "";
 
-            navigateTo('view-identificacao');
+            tentarAcessarIdentificacao();
         }
 
         function copiarCNPJ() {
             const cnpj = document.getElementById('cnpj-demo').innerText;
             
-            // Fallback para garantir a cópia em todos os ambientes incluindo iFrames
             const textarea = document.createElement('textarea');
             textarea.value = cnpj;
             document.body.appendChild(textarea);
@@ -686,8 +694,8 @@
                 return;
             }
             
-            // Se já copiou e realizou, prossegue com o fluxo de sucesso
-            navigateTo('view-sucesso');
+            // Se já copiou e realizou, prossegue para o pedido
+            iniciarPedido();
         }
 
         function iniciarPedido() {
@@ -744,11 +752,9 @@
             const btn = document.getElementById('btnEnviar');
             const conteudoOriginal = btn.innerHTML;
             
-            // Estado de loading
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Processando...';
             btn.disabled = true;
 
-            // Simula envio de rede
             setTimeout(() => {
                 btn.innerHTML = conteudoOriginal;
                 btn.disabled = false;
