@@ -443,23 +443,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: SUCESSO -->
-            <section id="view-sucesso" class="view-section flex flex-col items-center justify-center h-[70vh] px-6 text-center">
-                <div class="w-24 h-24 bg-heineken-light rounded-full flex items-center justify-center text-heineken-green text-5xl mb-6 shadow-inner">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Solicitação Enviada!</h2>
-                <p class="text-sm text-gray-500 mb-8 max-w-[300px]">Sua verificação e pedido foram encaminhados com sucesso para o nosso departamento comercial.</p>
-                <div class="w-full space-y-3">
-                    <button onclick="navigateTo('view-catalogo')" class="btn-primary">
-                        Continuar Comprando
-                    </button>
-                    <button onclick="navigateTo('view-inicio')" class="btn-outline border-gray-300 text-gray-600 hover:bg-gray-50">
-                        Voltar ao Início
-                    </button>
-                </div>
-            </section>
-
             <!-- VIEW: MEUS PEDIDOS -->
             <section id="view-pedidos" class="view-section p-4 h-full flex flex-col">
                 <h2 class="text-xl font-bold text-gray-900 mb-4">Meus Pedidos</h2>
@@ -758,7 +741,8 @@
             setTimeout(() => {
                 btn.innerHTML = conteudoOriginal;
                 btn.disabled = false;
-                navigateTo('view-sucesso');
+                mostrarToast("Solicitação enviada com sucesso!");
+                navigateTo('view-catalogo');
             }, 1500);
         }
 
