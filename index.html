@@ -120,6 +120,7 @@
                         <i class="fa-solid fa-star text-heineken-red text-[14px] mr-1.5 -mt-2"></i>
                         <h1 class="text-2xl font-black tracking-tighter uppercase leading-none">Heineken</h1>
                         <span class="ml-1.5 text-[10px] font-bold border border-white/30 rounded px-1.5 py-0.5 opacity-80 mt-1">B2B</span>
+                        <span id="header-empresa-nome" class="ml-2 text-xs font-semibold bg-heineken-green/40 px-2 py-0.5 rounded text-green-100 hidden"></span>
                     </div>
                 </div>
                 <div class="flex space-x-3">
@@ -141,7 +142,56 @@
 
         <main class="main-content relative bg-gray-50/50">
             
-            <section id="view-inicio" class="view-section active">
+            <!-- VIEW: CADASTRO INICIAL DA EMPRESA -->
+            <section id="view-cadastro-inicial" class="view-section p-4">
+                <div class="text-center mb-6 pt-2">
+                    <div class="w-16 h-16 bg-heineken-light rounded-full flex items-center justify-center text-heineken-green text-2xl mx-auto mb-3 shadow-sm">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-900">Identificação do Estabelecimento</h2>
+                    <p class="text-xs text-gray-500 mt-1">Preencha os dados do seu comércio para acessar o portal de cotação oficial.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-premium border border-gray-100 space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Nome da Empresa / Estabelecimento</label>
+                        <input type="text" id="cad-nome" placeholder="Ex: Bar e Mercearia do João" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:border-heineken-green focus:ring-1 focus:ring-heineken-green transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">CNPJ</label>
+                        <input type="text" id="cad-cnpj" placeholder="00.000.000/0001-00" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:border-heineken-green focus:ring-1 focus:ring-heineken-green transition font-mono">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Celular / WhatsApp</label>
+                        <input type="tel" id="cad-celular" placeholder="(00) 00000-0000" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:border-heineken-green focus:ring-1 focus:ring-heineken-green transition font-mono">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">CEP</label>
+                            <input type="text" id="cad-cep" placeholder="00000-000" maxlength="9" onblur="buscarCep(this.value)" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:border-heineken-green focus:ring-1 focus:ring-heineken-green transition font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Nº / Sala / Lote</label>
+                            <input type="text" id="cad-numero" placeholder="Ex: 120" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:border-heineken-green focus:ring-1 focus:ring-heineken-green transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Endereço Completo</label>
+                        <input type="text" id="cad-endereco" placeholder="Rua, Bairro, Cidade - UF" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm text-gray-600 focus:outline-none" readonly>
+                    </div>
+
+                    <button onclick="salvarCadastroInicial()" class="btn-primary mt-2">
+                        <span>Avançar para Verificação</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="view-inicio" class="view-section">
                 
                 <!-- Welcome Banner -->
                 <div class="bg-corp-gradient px-5 pt-6 pb-10 text-white relative overflow-hidden rounded-b-[2rem] shadow-sm">
@@ -389,15 +439,15 @@
                 <div class="w-24 h-24 bg-heineken-light rounded-full flex items-center justify-center text-heineken-green text-5xl mb-6 shadow-inner">
                     <i class="fa-solid fa-check"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Verificação Concluída!</h3>
-                <p class="text-sm text-gray-600 mb-6">Sua empresa foi validada com sucesso no sistema B2B.</p>
+                
+                
                 
                 <div class="w-full space-y-3">
                     <button onclick="navigateTo('view-catalogo')" class="btn-primary">
-                        Acessar Catálogo de Produtos
+                        
                     </button>
                     <button onclick="navigateTo('view-inicio')" class="btn-outline border-gray-300 text-gray-600 hover:bg-gray-50">
-                        Voltar ao Início
+                        
                     </button>
                 </div>
             </section>
@@ -471,9 +521,82 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             renderizarCatalogo();
+            verificarSessaoExistente();
         });
 
+        function verificarSessaoExistente() {
+            const empresaSalva = localStorage.getItem('heineken_b2b_empresa');
+            if (empresaSalva) {
+                try {
+                    const dados = JSON.parse(empresaSalva);
+                    if (dados && dados.nome) {
+                        atualizarNomeEmpresaNoTopo(dados.nome);
+                        // Se já tem cadastro, vai direto para o início
+                        navigateTo('view-inicio');
+                        return;
+                    }
+                } catch(e) {}
+            }
+            // Se não tiver sessão salva, exibe a tela de cadastro inicial
+            navigateTo('view-cadastro-inicial');
+        }
+
+        function atualizarNomeEmpresaNoTopo(nome) {
+            const badge = document.getElementById('header-empresa-nome');
+            if (badge) {
+                badge.innerText = nome;
+                badge.classList.remove('hidden');
+            }
+        }
+
+        async function buscarCep(cep) {
+            cep = cep.replace(/\D/g, '');
+            if(cep.length !== 8) return;
+            
+            try {
+                mostrarToast("Buscando endereço...");
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+                
+                if(!data.erro) {
+                    const enderecoCompleto = `${data.logradouro}, ${data.bairro} - ${data.localidade}/${data.uf}`;
+                    document.getElementById('cad-endereco').value = enderecoCompleto;
+                    mostrarToast("Endereço carregado com sucesso!");
+                } else {
+                    mostrarToast("CEP não encontrado.");
+                }
+            } catch(e) {
+                mostrarToast("Erro ao buscar CEP.");
+            }
+        }
+
+        function salvarCadastroInicial() {
+            const nome = document.getElementById('cad-nome').value.trim();
+            const cnpj = document.getElementById('cad-cnpj').value.trim();
+            const celular = document.getElementById('cad-celular').value.trim();
+            const cep = document.getElementById('cad-cep').value.trim();
+            const numero = document.getElementById('cad-numero').value.trim();
+            const endereco = document.getElementById('cad-endereco').value.trim();
+
+            if(!nome || !cnpj || !celular || !cep || !numero) {
+                mostrarToast("Preencha todos os campos do cadastro.");
+                return;
+            }
+
+            const dadosEmpresa = { nome, cnpj, celular, cep, numero, endereco };
+            localStorage.setItem('heineken_b2b_empresa', JSON.stringify(dadosEmpresa));
+
+            atualizarNomeEmpresaNoTopo(nome);
+            mostrarToast("Estabelecimento cadastrado com sucesso!");
+            navigateTo('view-inicio');
+        }
+
         function navigateTo(viewId) {
+            // Se tentar ir para qualquer lugar sem sessão e não estiver na tela de cadastro, força o cadastro
+            if(viewId !== 'view-cadastro-inicial' && !localStorage.getItem('heineken_b2b_empresa')) {
+                viewId = 'view-cadastro-inicial';
+            }
+
             document.querySelectorAll('.view-section').forEach(el => {
                 el.classList.remove('active');
             });
